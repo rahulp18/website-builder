@@ -4,7 +4,7 @@ import Sidebar from '@/components/sidebar';
 import Unauthorized from '@/components/unauthorized';
 import {
   getNotificationAndUser,
-  verificationAndAcceptInvitation,
+  verifyAndAcceptInvitation,
 } from '@/lib/queries';
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
@@ -16,7 +16,7 @@ interface Props {
   };
 }
 const AgencyLayout = async ({ children, params }: Props) => {
-  const agencyId = await verificationAndAcceptInvitation();
+  const agencyId = await verifyAndAcceptInvitation();
   const user = await currentUser();
 
   if (!user) {

@@ -20,7 +20,7 @@ interface InfoBarProps {
   notifications: NotificationWithUser | [];
   role?: string;
   className?: string;
-  subAccountId: string;
+  subAccountId?: string;
 }
 const InfoBar = ({
   notifications,

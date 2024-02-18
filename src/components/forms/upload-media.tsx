@@ -23,7 +23,7 @@ import {
 import { Input } from '../ui/input';
 import FileUpload from '../global/file-upload';
 import { Button } from '../ui/button';
-import { createMedia, saveActivityNotification } from '@/lib/queries';
+import { createMedia, saveActivityLogsNotification } from '@/lib/queries';
 
 type Props = {
   subaccountId: string;
@@ -49,24 +49,24 @@ const UploadMediaForm = ({ subaccountId }: Props) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-        const response=await createMedia(subaccountId,values)
-        await saveActivityNotification({
-            agencyId:undefined,
-            description:`Upload a media file | ${response.name}`,
-            subaccountId
-        });
-        toast({title:'Success',description:'Uploaded media'})
-        router.refresh();
+      const response = await createMedia(subaccountId, values);
+      await saveActivityLogsNotification({
+        agencyId: undefined,
+        description: `Upload a media file | ${response.name}`,
+        subaccountId,
+      });
+      toast({ title: 'Success', description: 'Uploaded media' });
+      router.refresh();
     } catch (error) {
       console.log(error);
-        toast({
+      toast({
         variant: 'destructive',
         title: 'Failed',
         description: 'Could not uploaded media',
-      })
+      });
     }
-    }
-  
+  }
+
   return (
     <Card className="w-full">
       <CardHeader>

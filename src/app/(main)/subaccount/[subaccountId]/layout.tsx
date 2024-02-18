@@ -5,7 +5,7 @@ import Unauthorized from '@/components/unauthorized';
 import {
   getAuthUserDetails,
   getNotificationAndUser,
-  verificationAndAcceptInvitation,
+  verifyAndAcceptInvitation,
 } from '@/lib/queries';
 import { currentUser } from '@clerk/nextjs';
 import { Role } from '@prisma/client';
@@ -18,7 +18,7 @@ type Props = {
 };
 
 const SubaccountLayout = async ({ children, params }: Props) => {
-  const agencyId = await verificationAndAcceptInvitation();
+  const agencyId = await verifyAndAcceptInvitation();
   if (!agencyId) return <Unauthorized />;
   const user = await currentUser();
   if (!user) {

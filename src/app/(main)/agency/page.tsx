@@ -1,8 +1,5 @@
 import AgencyDetails from '@/components/forms/agency-details';
-import {
-  getAuthUserDetails,
-  verificationAndAcceptInvitation,
-} from '@/lib/queries';
+import { getAuthUserDetails, verifyAndAcceptInvitation } from '@/lib/queries';
 import { currentUser } from '@clerk/nextjs';
 import { Plan } from '@prisma/client';
 import { redirect } from 'next/navigation';
@@ -13,7 +10,7 @@ const Agency = async ({
 }: {
   searchParams: { plan: Plan; state: string; code: string };
 }) => {
-  const agencyId = await verificationAndAcceptInvitation();
+  const agencyId = await verifyAndAcceptInvitation();
   console.log(agencyId);
   const user = await getAuthUserDetails();
 

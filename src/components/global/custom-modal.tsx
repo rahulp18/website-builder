@@ -20,7 +20,7 @@ function CustomModal({ children, subHeading, title, defaultOpen }: Props) {
 
   return (
     <Dialog open={isOpen || defaultOpen} onOpenChange={setClose}>
-      <DialogContent className="overflow-auto md:max-h-[700px] md:h-fit h-screen bg-card">
+      <DialogContent className="overflow-auto md:max-h-[700px] md:h-fit h-auto bg-card">
         <DialogHeader className="pt-8 text-left">
           <DialogTitle className="text-2xl font-bold">{title}</DialogTitle>
           <DialogDescription>{subHeading}</DialogDescription>

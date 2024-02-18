@@ -40,7 +40,7 @@ import { Switch } from '../ui/switch';
 import {
   deleteAgency,
   initUser,
-  saveActivityNotification,
+  saveActivityLogsNotification,
   updateAgencyDetails,
   upsertAgency,
 } from '@/lib/queries';
@@ -364,7 +364,7 @@ const AgencyDetails = ({ data }: Props) => {
                     onValueChange={async val => {
                       if (!data?.id) return;
                       await updateAgencyDetails(data.id, { goal: val });
-                      await saveActivityNotification({
+                      await saveActivityLogsNotification({
                         agencyId: data.id,
                         description: `Updated the agency goal to | ${val} Sub account`,
                         subaccountId: undefined,

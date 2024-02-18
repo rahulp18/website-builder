@@ -8,7 +8,7 @@ import React, { FC, useEffect } from 'react';
 import { Agency, SubAccount } from '@prisma/client';
 import { useToast } from '../ui/use-toast';
 import { useModal } from '@/providers/modal-provider';
-import { saveActivityNotification, upsertSubAccount } from '@/lib/queries';
+import { saveActivityLogsNotification, upsertSubAccount } from '@/lib/queries';
 import { useRouter } from 'next/navigation';
 import {
   Card,
@@ -88,7 +88,7 @@ const SubAccountDetails: FC<SubAccountDetailsProps> = ({
         goal: 5000,
       });
       if (!response) throw new Error('No response from server');
-      await saveActivityNotification({
+      await saveActivityLogsNotification({
         agencyId: response.agencyId,
         description: `${userName} | updated sub account | ${response.name}`,
         subaccountId: response.id,

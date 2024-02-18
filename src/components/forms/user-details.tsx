@@ -12,7 +12,7 @@ import {
   changeUserPermissions,
   getAuthUserDetails,
   getUserPermissions,
-  saveActivityNotification,
+  saveActivityLogsNotification,
   updateUser,
 } from '@/lib/queries';
 import * as z from 'zod';
@@ -132,7 +132,7 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
       val,
     );
     if (type === 'agency') {
-      await saveActivityNotification({
+      await saveActivityLogsNotification({
         agencyId: authUserData?.Agency?.id,
         description: `Gave ${userData?.name} access to | ${
           subAccountPermissions?.Permissions.find(
@@ -177,7 +177,7 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
           p => p.subAccountId === subacc.id && p.access,
         ),
       ).forEach(async subaccount => {
-        await saveActivityNotification({
+        await saveActivityLogsNotification({
           agencyId: undefined,
           description: `Updated ${userData?.name} information`,
           subaccountId: subaccount.id,

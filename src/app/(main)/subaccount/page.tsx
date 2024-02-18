@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  getAuthUserDetails,
-  verificationAndAcceptInvitation,
-} from '@/lib/queries';
+import { getAuthUserDetails, verifyAndAcceptInvitation } from '@/lib/queries';
 import Unauthorized from '@/components/unauthorized';
 import { redirect } from 'next/navigation';
 type Props = {
@@ -12,7 +9,7 @@ type Props = {
   };
 };
 const SubAccount = async ({ searchParams }: Props) => {
-  const agencyId = await verificationAndAcceptInvitation();
+  const agencyId = await verifyAndAcceptInvitation();
 
   if (!agencyId) {
     return <Unauthorized />;
