@@ -906,3 +906,12 @@ export const getPipelines = async (subaccountId: string) => {
   });
   return response;
 };
+
+export const deleteContact = async (id: string) => {
+  const res = await db.contact.delete({
+    where: {
+      id,
+    },
+  });
+  return res;
+};
