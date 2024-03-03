@@ -1,4 +1,5 @@
 'use client';
+ 
 import SubscriptionFormWrapper from '@/components/forms/subscription-form-wrapper';
 import CustomModal from '@/components/global/custom-modal';
 import { PricesList } from '@/lib/types';
@@ -18,18 +19,26 @@ const SubscriptionHelper = ({ customerId, planExists, prices }: Props) => {
   const plan = searchParams.get('plan');
 
   useEffect(() => {
-    setOpen(
-      <CustomModal
-        title="Upgrade Plan!"
-        subHeading="Get started today to get access to premium features"
-      >
-        <SubscriptionFormWrapper
-          planExists={planExists}
-          customerId={customerId}
-        />
-      </CustomModal>,
-    );
+    if (plan)
+      setOpen(
+        <CustomModal
+          title="Upgrade Plan!"
+          subHeading="Get started today to get access to premium features"
+        >
+          <SubscriptionFormWrapper
+            planExists={planExists}
+            customerId={customerId}
+          />
+        </CustomModal>,
+        async () => ({
+          plans: {
+            defaultPriceId: plan ? plan : '',
+            plans: prices,
+          },
+        }),
+      );
   }, [plan]);
+
   return <div>SubscriptionHelper</div>;
 };
 

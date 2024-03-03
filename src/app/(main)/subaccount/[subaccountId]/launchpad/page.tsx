@@ -14,22 +14,25 @@ import { CheckCircleIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-interface LaunchpadPageProps {
-  params: {
-    subaccountId: string;
-  };
+
+type Props = {
   searchParams: {
     state: string;
     code: string;
   };
-}
-const LaunchpadPage = async ({ params, searchParams }: LaunchpadPageProps) => {
+  params: { subaccountId: string };
+};
+
+const LaunchPad = async ({ params, searchParams }: Props) => {
   const subaccountDetails = await db.subAccount.findUnique({
     where: {
       id: params.subaccountId,
     },
   });
-  if (!subaccountDetails) return;
+
+  if (!subaccountDetails) {
+    return;
+  }
 
   const allDetailsExist =
     subaccountDetails.address &&
@@ -40,6 +43,7 @@ const LaunchpadPage = async ({ params, searchParams }: LaunchpadPageProps) => {
     subaccountDetails.country &&
     subaccountDetails.name &&
     subaccountDetails.state;
+
   const stripeOAuthLink = getStripeOAuthLink(
     'subaccount',
     `launchpad___${subaccountDetails.id}`,
@@ -64,80 +68,81 @@ const LaunchpadPage = async ({ params, searchParams }: LaunchpadPageProps) => {
       }
     }
   }
+
   return (
     <BlurPage>
       <div className="flex flex-col justify-center items-center">
         <div className="w-full h-full max-w-[800px]">
-          <Card className="border-none">
+          <Card className="border-none ">
             <CardHeader>
-              <CardTitle>Let's get started!</CardTitle>
+              <CardTitle>Lets get started!</CardTitle>
               <CardDescription>
-                Follow the steps below to get your account setup
+                Follow the steps below to get your account setup correctly.
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
-              <div className="flex justify-between items-center w-full border p-4 rounded-lg gap-2">
-                <div className="flex md:items-center gap-4 flex-col md:flex-row">
+              <div className="flex justify-between items-center w-full h-20 border p-4 rounded-lg ">
+                <div className="flex items-center gap-4">
                   <Image
                     src="/appstore.png"
-                    alt="app logo"
+                    alt="App logo"
                     height={80}
                     width={80}
                     className="rounded-md object-contain"
                   />
-                  <p>Save the website as a shortcut to your mobile device</p>
+                  <p>Save the website as a shortcut on your mobile devide</p>
                 </div>
-                <Button className="px-4 text-base">Start</Button>
+                <Button>Start</Button>
               </div>
-              <div className="flex justify-between items-center w-full border p-4 rounded-lg gap-2">
-                <div className="flex md:items-center gap-4 flex-col md:flex-row">
+              <div className="flex justify-between items-center w-full h-20 border p-4 rounded-lg">
+                <div className="flex items-center gap-4">
                   <Image
                     src="/stripelogo.png"
-                    alt="app logo"
+                    alt="App logo"
                     height={80}
                     width={80}
-                    className="rounded-md object-contain"
+                    className="rounded-md object-contain "
                   />
                   <p>
-                    Connect your stripe account to accept payments and see your
-                    dashboard.
+                    Connect your stripe account to accept payments. Stripe is
+                    used to run payouts.
                   </p>
                 </div>
                 {subaccountDetails.connectAccountId ||
                 connectedStripeAccount ? (
                   <CheckCircleIcon
                     size={50}
-                    className="text-primary p-3 flex-shrink-0"
+                    className=" text-primary p-2 flex-shrink-0"
                   />
                 ) : (
                   <Link
+                    className="bg-primary py-2 px-4 rounded-md text-white"
                     href={stripeOAuthLink}
-                    className="bg-primary py-2 px-4 text-base font-medium rounded-md text-white"
                   >
                     Start
                   </Link>
                 )}
               </div>
-              <div className="flex justify-between items-center w-full border p-4 rounded-lg gap-2">
-                <div className="flex md:items-center gap-4 flex-col md:flex-row">
+              <div className="flex justify-between items-center w-full h-20 border p-4 rounded-lg">
+                <div className="flex items-center gap-4">
                   <Image
                     src={subaccountDetails.subAccountLogo}
-                    alt="app logo"
+                    alt="App logo"
                     height={80}
                     width={80}
-                    className="rounded-md object-contain"
+                    className="rounded-md object-contain p-4"
                   />
-                  <p>Fill in all your business details</p>
+                  <p>Fill in all your business details.</p>
                 </div>
                 {allDetailsExist ? (
                   <CheckCircleIcon
                     size={50}
-                    className="text-primary p-2 flex-shrink-0"
+                    className=" text-primary p-2 flex-shrink-0"
                   />
                 ) : (
                   <Link
-                    href={`/agency/${subaccountDetails.id}/settings`}
-                    className="bg-primary py-2 px-4 rounded-md text-base font-medium text-white"
+                    className="bg-primary py-2 px-4 rounded-md text-white"
+                    href={`/subaccount/${subaccountDetails.id}/settings`}
                   >
                     Start
                   </Link>
@@ -151,4 +156,4 @@ const LaunchpadPage = async ({ params, searchParams }: LaunchpadPageProps) => {
   );
 };
 
-export default LaunchpadPage;
+export default LaunchPad;

@@ -66,7 +66,7 @@ const TicketForm = ({ getNewTicket, laneId, subaccountId }: Props) => {
   const saveTimerRef = useRef<ReturnType<typeof setTimeout>>();
   const [allTeamMembers, setAllTeamMembers] = useState<User[]>([]);
   const [assignedTo, setAssignedTo] = useState(
-    defaultData.ticket?.Assigned?.id || '',
+    defaultData?.ticket?.Assigned?.id || '',
   );
   const form = useForm<z.infer<typeof TicketFormSchema>>({
     mode: 'onChange',
@@ -90,7 +90,7 @@ const TicketForm = ({ getNewTicket, laneId, subaccountId }: Props) => {
   }, [subaccountId]);
 
   useEffect(() => {
-    if (defaultData.ticket) {
+    if (defaultData?.ticket) {
       form.reset({
         name: defaultData.ticket.name || '',
         description: defaultData.ticket?.description || '',
