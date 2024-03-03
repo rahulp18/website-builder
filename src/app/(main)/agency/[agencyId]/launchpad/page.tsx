@@ -7,6 +7,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { db } from '@/lib/db';
+import { stripe } from '@/lib/stripe';
+import { getStripeOAuthLink } from '@/lib/utils';
 import { CheckCircleIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -37,6 +39,28 @@ const LunchPad = async ({ params: { agencyId }, searchParams }: Props) => {
     agencyDetails.state &&
     agencyDetails.zipCode;
 
+  const stripeOAuthLink = getStripeOAuthLink(
+    'agency',
+    `launchpad___${agencyDetails.id}`,
+  );
+  let connectedStripeAccount = false;
+  if (searchParams.code) {
+    if (!agencyDetails.connectAccountId) {
+      try {
+        const response = await stripe.oauth.token({
+          grant_type: 'authorization_code',
+          code: searchParams.code,
+        });
+        await db.agency.update({
+          where: { id: agencyId },
+          data: { connectAccountId: response.stripe_user_id },
+        });
+      } catch (error) {
+        console.log('🔴 Could not connect stripe account');
+      }
+    }
+  }
+  console.log(stripeOAuthLink);
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="w-full h-full max-w-[800px]">
@@ -75,14 +99,14 @@ const LunchPad = async ({ params: { agencyId }, searchParams }: Props) => {
                   dashboard.
                 </p>
               </div>
-              {agencyDetails.connectAccountId ? (
+              {agencyDetails.connectAccountId || connectedStripeAccount ? (
                 <CheckCircleIcon
                   size={50}
                   className="text-primary p-3 flex-shrink-0"
                 />
               ) : (
                 <Link
-                  href=""
+                  href={stripeOAuthLink}
                   className="bg-primary py-2 px-4 text-base font-medium rounded-md text-white"
                 >
                   Start

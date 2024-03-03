@@ -1,3 +1,4 @@
+import BlurPage from '@/components/global/blur-page';
 import MediaComponent from '@/components/media';
 import { getMedia } from '@/lib/queries';
 import React from 'react';
@@ -8,9 +9,9 @@ const MediaPage = async ({ params }: MediaPageProps) => {
   const data = await getMedia(params.subaccountId);
 
   return (
-    <div>
+    <BlurPage>
       <MediaComponent data={data} subaccountId={params.subaccountId} />
-    </div>
+    </BlurPage>
   );
 };
 
