@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import TableActions from './_components/table-actions';
+import BlurPage from '@/components/global/blur-page';
 type Props = {
   params: {
     subaccountId: string;
@@ -64,7 +65,7 @@ const ContactsPage = async ({ params }: Props) => {
     return amt.format(laneAmt);
   };
   return (
-    <div>
+    <BlurPage>
       <h1 className="text-4xl p-4">Contacts</h1>
       {/* Add create contact button */}
       <div className="flex items-center justify-end mb-5">
@@ -122,7 +123,7 @@ const ContactsPage = async ({ params }: Props) => {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </BlurPage>
   );
 };
 
